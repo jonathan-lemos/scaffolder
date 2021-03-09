@@ -15,14 +15,14 @@ parser.add_argument("--initialize", dest="initialize", action="store_true",
                     help="Initializes the AWS Lambda templates and tools and exits.")
 
 parser.add_argument("--language", dest="language", metavar="LANG",
-                    help=f"The language to scaffold (default C#). Type '{sys.argv[0]} --list-templates' for more information.",
+                    help=f"The language to scaffold (default C#). Type \033[32m{sys.argv[0]} --list-templates\033[m for more information.",
                     default="C#")
 
 parser.add_argument("--list-templates", action="store_true", dest="list_templates", help="List templates and exit.",
                     default=False)
 
 parser.add_argument("--template", dest="template", metavar="TEMPLATE",
-                    help=f"The template to scaffold (default lambda.EmptyFunction). Type '{sys.argv[0]} --list-templates' for more information.",
+                    help=f"The template to scaffold (default lambda.EmptyFunction). Type \033[32m{sys.argv[0]} --list-templates\033[m for more information.",
                     default="lambda.EmptyFunction")
 
 options = parser.parse_args()
@@ -747,12 +747,12 @@ override.tf.json
 def scaffold():
     assert_dotnet_executable_exists()
     if not directory_is_empty("."):
-        error(f"The directory {os.curdir} is not empty. Type '{sys.argv[0]} --help' for help.")
+        error(f"The directory {os.curdir} is not empty. Type \033[32m{sys.argv[0]} --help\033[m for help.")
         exit(1)
 
     info(f"Bootstrapping {options.template}/{options.language}.")
     if shell_execute(["dotnet", "new", options.template, "--language", options.language], echo=True) != 0:
-        error("Failed to bootstrap project")
+        error(f"Failed to bootstrap project. You might need to run \033[32m{sys.argv[0]} --initialize\033[m if you're trying to scaffold an AWS template.")
         exit(1)
 
     info(f"Creating .sln file.")
